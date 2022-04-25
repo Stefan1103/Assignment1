@@ -1,0 +1,28 @@
+.todo-container {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	border: 1px solid $darkmandarine;
+	border-radius: .1rem;
+	padding: .5rem;
+	margin-top: 2rem;
+	.todo-title {
+		width: 77%;
+		font-weight: 400;
+		display: flex;
+		justify-content: space-between;
+		p {
+			color: $mainColor;
+		}
+		b {
+			color: $darkmandarine;
+			font-weight: 600;
+		}
+	}
+	.todo-btn-container {
+		width: 23%;
+		display: flex;
+		justify-content: space-evenly;
+		align-items: center;
+	}
+}

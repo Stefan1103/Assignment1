@@ -1,0 +1,16 @@
+main {
+	section {
+		article {
+			display: flex;
+			flex-direction: column;
+			.drop-container {
+				align-self: flex-end;
+				color: $darkmandarine;
+				font-weight: 600;
+				label {
+					padding-right: 1rem;
+				}
+			}
+		}
+	}
+}

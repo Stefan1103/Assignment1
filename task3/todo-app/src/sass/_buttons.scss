@@ -1,0 +1,59 @@
+%butn {
+	display: inline-block;
+	cursor: pointer;
+	border-radius: .15em;
+	padding: .2em .6em;
+	text-align: center;
+	&:hover,
+	&:focus {
+		text-decoration: none;
+		background-color: $neutral-100;
+		color: $darkmandarine;
+	}
+}
+
+.btn-main {
+	@extend %butn;
+	color: $neutral-100;
+	background-color: $grass;
+	border: none;
+	font-weight: 500;
+	&:hover,
+	&:focus {
+		text-decoration: none;
+		color: $grass;
+		background-color: $mainColor;
+		transform: scale(1.08);
+	}
+}
+.btn-delete {
+	@extend %butn;
+	color: $neutral-100;
+	background-color: $danger;
+	border: none;
+	font-weight: 500;
+	&:hover,
+	&:focus {
+		text-decoration: none;
+		color: $danger;
+		background-color: $mainColor;
+		transform: scale(1.08);
+	}
+}
+
+.btn-back {
+	@extend %butn;
+	background-color: $darkmandarine;
+	color: $neutral-100;
+	font-weight: 400;
+	transition: transform 200ms ease;
+	border: none;
+
+	&:hover,
+	&:focus {
+		text-decoration: none;
+		color: $darkmandarine;
+		background-color: $mainColor;
+		transform: scale(1.08);
+	}
+}
