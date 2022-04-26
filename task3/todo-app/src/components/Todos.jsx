@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
-import Loading from '../pages/util/Loading';
-import Error from '../pages/util/Error';
+import Loading from './Loading';
+import Error from '../pages/Error';
 import Todo from './Todo';
 import { useAxios } from '../hooks/useAxios';
 
@@ -33,16 +33,17 @@ const Todos = () => {
 			const uncompleteTodos = data.filter((todo) => todo.completed === false);
 			console.log(uncompleteTodos);
 			setDisplayTodos(uncompleteTodos);
-			return;
 		} else {
 			setDisplayTodos(data);
-			return;
 		}
 	};
 	const deleteHandler = (id) => {
 		const newDisplayTodos = displayTodos.filter((todo) => todo.id !== id);
 		setDisplayTodos(newDisplayTodos);
-		console.log(displayTodos);
+		if (displayTodos.length <= 1) {
+			alert('The page will refresh you have deleted all content !');
+			window.location.reload();
+		}
 	};
 	const toggleTodoHandler = (id, completed) => {
 		const newDisplayTodos = displayTodos.map((todo) => {

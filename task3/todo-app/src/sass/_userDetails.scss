@@ -1,0 +1,30 @@
+.userDetails {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+	h1 {
+		margin: 2rem;
+	}
+	.userDetails-info {
+		color: $mainColor;
+		width: 100%;
+		display: flex;
+		align-items: center;
+		flex-direction: column;
+		p {
+			margin: 1rem;
+			strong {
+				font-weight: 700;
+				color: $darkmandarine;
+			}
+		}
+	}
+
+	.userDetails-btn-container {
+		width: 100%;
+		display: flex;
+		justify-content: center;
+		margin-top: 2rem;
+	}
+}
