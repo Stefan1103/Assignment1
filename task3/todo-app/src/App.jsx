@@ -1,11 +1,16 @@
 import './sass/app.scss';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Home from './pages/Home';
+import UserDetails from './pages/UserDetails';
 
 function App() {
 	return (
-		<div className="app">
-			<Home />
-		</div>
+		<Router>
+			<Routes>
+				<Route path="/" element={<Home />} />
+				<Route path="/UserDetails/:id" element={<UserDetails />} />
+			</Routes>
+		</Router>
 	);
 }
 

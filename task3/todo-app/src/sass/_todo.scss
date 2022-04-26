@@ -2,15 +2,19 @@
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
-	border: 1px solid $darkmandarine;
-	border-radius: .1rem;
-	padding: .5rem;
-	margin-top: 2rem;
+
+	padding: .1rem;
+	margin-top: 1.3rem;
+
 	.todo-title {
 		width: 77%;
 		font-weight: 400;
 		display: flex;
 		justify-content: space-between;
+		text-decoration: none;
+		border: 1px solid $darkmandarine;
+		border-radius: .1rem;
+		padding: .2rem;
 		p {
 			color: $mainColor;
 		}
@@ -22,7 +26,7 @@
 	.todo-btn-container {
 		width: 23%;
 		display: flex;
-		justify-content: space-evenly;
+		justify-content: flex-end;
 		align-items: center;
 	}
 }

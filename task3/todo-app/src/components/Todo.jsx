@@ -1,9 +1,10 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 const Todo = ({ userId, id, title, completed, deleteHandler, toggleTodoHandler }) => {
 	return (
 		<div className="todo-container">
-			<div className="todo-title">
+			<Link to={`UserDetails/${userId}`} className="todo-title">
 				<p>
 					{' '}
 					<b>Title</b> : {title}
@@ -12,7 +13,7 @@ const Todo = ({ userId, id, title, completed, deleteHandler, toggleTodoHandler }
 					<b>completed: </b>
 					{completed ? 'true' : 'false'}
 				</p>
-			</div>
+			</Link>
 			<div className="todo-btn-container">
 				<button className="btn-delete" onClick={() => deleteHandler(id)}>
 					Delete
