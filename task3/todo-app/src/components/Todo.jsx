@@ -19,7 +19,7 @@ const Todo = ({ userId, id, title, completed, deleteHandler, toggleTodoHandler }
 					Delete
 				</button>
 				<button className="btn-main" onClick={() => toggleTodoHandler(id, completed)}>
-					Done/NotDone
+					Toggle
 				</button>
 			</div>
 		</div>

@@ -10,6 +10,7 @@ const Todos = () => {
 	const [ displayTodos, setDisplayTodos ] = useState([]);
 	const [ selectedFilter, setSelectedFilter ] = useState('all');
 	const [ prevTodos, setPrevTodos ] = useState();
+	const [ searchFilterState, setSearchFilterState ] = useState(null);
 	const selectFilter = useRef();
 
 	const { isLoading, isError, data } = useAxios(url);
@@ -29,44 +30,67 @@ const Todos = () => {
 			const completeTodos = prevTodos.filter((todo) => todo.completed === true);
 			const opt = selectFilter.current.options[selectFilter.current.options.selectedIndex].value;
 			setSelectedFilter(opt);
-			console.log(selectFilter.current.options[selectFilter.current.options.selectedIndex]);
+			setSearchFilterState(completeTodos);
 			setDisplayTodos(completeTodos);
 			return;
 		}
 		if (e.target.value === 'uncompleted') {
 			const uncompleteTodos = prevTodos.filter((todo) => todo.completed === false);
 			const opt = selectFilter.current.options[selectFilter.current.options.selectedIndex].value;
+			setSearchFilterState(uncompleteTodos);
 			setSelectedFilter(opt);
 			setDisplayTodos(uncompleteTodos);
 		} else {
-			setSelectedFilter('all');
+			const opt = selectFilter.current.options[selectFilter.current.options.selectedIndex].value;
+			setSelectedFilter(opt);
+			setSearchFilterState(prevTodos);
 			setDisplayTodos(prevTodos);
 		}
 	};
 	const deleteHandler = (id) => {
-		const newDisplayTodos = displayTodos.filter((todo) => todo.id !== id);
+		const sameArr = getCommonElements(displayTodos, prevTodos);
+		const newDisplayTodos = sameArr.filter((todo) => todo.id !== id);
+		const deleteIdTodo = prevTodos.filter((todo) => todo.id !== id);
+
+		const notCommonElements = getNotCommonElements(deleteIdTodo, newDisplayTodos);
+		const newPrevTodos = [ ...newDisplayTodos, ...notCommonElements ];
+		const newfilterState = searchFilterState ? searchFilterState.filter((todo) => todo.id !== id) : [ ...newPrevTodos ];
 		setDisplayTodos(newDisplayTodos);
-		setPrevTodos(newDisplayTodos);
-		if (displayTodos.length <= 1) {
+		setSearchFilterState(newfilterState);
+		setPrevTodos(newPrevTodos);
+
+		if (prevTodos.length <= 1) {
 			alert('The page will refresh you have deleted all content !');
 			window.location.reload();
 		}
 	};
 	const toggleTodoHandler = (id, completed) => {
-		const newDisplayTodos = displayTodos.map((todo) => {
+		const sameArr = getCommonElements(displayTodos, prevTodos);
+		const newDisplayTodos = sameArr.map((todo) => {
 			if (todo.id === id) {
 				let newCompleted = !completed;
 				return { ...todo, completed: newCompleted };
 			}
 			return todo;
 		});
-		setPrevTodos(newDisplayTodos);
+		const deleteIdTodo = prevTodos.filter((todo) => todo.id !== id);
+		const notCommonElements = getNotCommonElements(deleteIdTodo, newDisplayTodos);
+		const newPrevTodos = [ ...newDisplayTodos, ...notCommonElements ];
+		const toggledTodo = newDisplayTodos.filter((todo) => todo.id === id);
+
+		const newfilterState = searchFilterState
+			? !completed ? searchFilterState.filter((todo) => todo.id !== id) : [ ...toggledTodo, ...searchFilterState ]
+			: [ ...newPrevTodos ];
+		console.log('newfs', newfilterState);
+		console.log(newDisplayTodos);
+		setSearchFilterState(newfilterState);
+		setPrevTodos(newPrevTodos);
 		setDisplayTodos(newDisplayTodos);
 	};
 	const handleSearch = (e) => {
 		const { value } = e.target;
 		if (!value) {
-			const newDisplayTodos = [ ...prevTodos ];
+			const newDisplayTodos = searchFilterState ? [ ...searchFilterState ] : [ ...prevTodos ];
 			selectFilter.current.value = selectedFilter;
 			setDisplayTodos(newDisplayTodos);
 			return;
@@ -74,6 +98,15 @@ const Todos = () => {
 		const newDisplayTodos = displayTodos.filter((todo) => todo.title.includes(value));
 		setDisplayTodos(newDisplayTodos);
 	};
+	function getCommonElements(arr1, arr2) {
+		return arr1.filter((element) => arr2.includes(element));
+	}
+	function getNotCommonElements(arr1, arr2) {
+		return arr1.filter((element) => !arr2.includes(element));
+	}
+	console.log('prev:', prevTodos);
+	console.log('unc', displayTodos);
+	console.log('filterstate', searchFilterState);
 	return (
 		<main>
 			<section>

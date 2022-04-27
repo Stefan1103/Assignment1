@@ -24,5 +24,5 @@ export const useAxios = (url) => {
 		},
 		[ url ],
 	);
-	return { isLoading, isError, data, setData };
+	return { isLoading, isError, data };
 };

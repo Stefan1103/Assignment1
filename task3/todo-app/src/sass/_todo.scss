@@ -6,14 +6,19 @@
 	padding: .1rem;
 	margin-top: 1.3rem;
 
+	@include tablet {
+		flex-direction: column;
+	}
+
 	.todo-title {
-		width: 77%;
+		width: 80%;
 		font-weight: 400;
 		display: flex;
 		justify-content: space-between;
 		text-decoration: none;
 		border-bottom: 1px solid $darkmandarine;
 		padding: .2rem;
+
 		p {
 			color: $mainColor;
 		}
@@ -23,7 +28,14 @@
 		}
 	}
 	.todo-btn-container {
-		width: 23%;
+		@include tablet {
+			margin-top: 1rem;
+			justify-content: center;
+		}
+		.btn-delete {
+			margin-right: 1em;
+		}
+		width: 20%;
 		display: flex;
 		justify-content: flex-end;
 		align-items: center;

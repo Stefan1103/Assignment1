@@ -6,12 +6,24 @@ main {
 			.search-options {
 				display: flex;
 				justify-content: space-between;
+				@include tablet {
+					display: flex;
+					flex-direction: column;
+					align-items: center;
+				}
 				.search-todo {
+					@include tablet {
+						margin-bottom: 2rem;
+					}
+
 					input {
 						width: 20rem;
 						height: 1.5rem;
 						border: 2px solid $mainColor;
 						border-radius: 4px;
+						@include mobile {
+							width: 15rem;
+						}
 						&:focus {
 							border: 2px solid $darkmandarine;
 							border-radius: 4px;
@@ -27,6 +39,10 @@ main {
 						padding-right: 1rem;
 					}
 				}
+			}
+			.todo-list-container {
+				display: flex;
+				flex-direction: column;
 			}
 		}
 	}
