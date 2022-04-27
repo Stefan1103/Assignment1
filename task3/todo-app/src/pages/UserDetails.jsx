@@ -10,7 +10,6 @@ const UserDetails = () => {
 	const { id } = useParams();
 	const url = `https://jsonplaceholder.typicode.com/users/${id}`;
 	const { isLoading, isError, data } = useAxios(url);
-	console.log(isLoading);
 	if (isLoading) return <Loading />;
 	if (isError.error) return <Error />;
 	const { address, email, name, username } = data;

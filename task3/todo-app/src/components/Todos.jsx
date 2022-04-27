@@ -25,7 +25,6 @@ const Todos = () => {
 	if (isError.error) return <Error />;
 
 	const filterTodos = (e) => {
-		console.log(e.target.value);
 		if (e.target.value === 'completed') {
 			const completeTodos = prevTodos.filter((todo) => todo.completed === true);
 			const opt = selectFilter.current.options[selectFilter.current.options.selectedIndex].value;
@@ -81,8 +80,6 @@ const Todos = () => {
 		const newfilterState = searchFilterState
 			? !completed ? searchFilterState.filter((todo) => todo.id !== id) : [ ...toggledTodo, ...searchFilterState ]
 			: [ ...newPrevTodos ];
-		console.log('newfs', newfilterState);
-		console.log(newDisplayTodos);
 		setSearchFilterState(newfilterState);
 		setPrevTodos(newPrevTodos);
 		setDisplayTodos(newDisplayTodos);
@@ -104,9 +101,6 @@ const Todos = () => {
 	function getNotCommonElements(arr1, arr2) {
 		return arr1.filter((element) => !arr2.includes(element));
 	}
-	console.log('prev:', prevTodos);
-	console.log('unc', displayTodos);
-	console.log('filterstate', searchFilterState);
 	return (
 		<main>
 			<section>
