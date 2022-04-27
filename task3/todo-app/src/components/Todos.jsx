@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import Loading from './Loading';
 import Error from '../pages/Error';
 import Todo from './Todo';
@@ -8,16 +8,15 @@ import { useAxios } from '../hooks/useAxios';
 const Todos = () => {
 	const url = 'https://jsonplaceholder.typicode.com/todos';
 	const [ displayTodos, setDisplayTodos ] = useState([]);
-	const [ selectedFilter, setSelectedFilter ] = useState('all');
 	const [ prevTodos, setPrevTodos ] = useState();
 	const [ searchFilterState, setSearchFilterState ] = useState(null);
-	const selectFilter = useRef();
 
 	const { isLoading, isError, data } = useAxios(url);
 	useEffect(
 		() => {
 			setDisplayTodos(data);
 			setPrevTodos(data);
+			setSearchFilterState(data);
 		},
 		[ data ],
 	);
@@ -27,36 +26,26 @@ const Todos = () => {
 	const filterTodos = (e) => {
 		if (e.target.value === 'completed') {
 			const completeTodos = prevTodos.filter((todo) => todo.completed === true);
-			const opt = selectFilter.current.options[selectFilter.current.options.selectedIndex].value;
-			setSelectedFilter(opt);
 			setSearchFilterState(completeTodos);
 			setDisplayTodos(completeTodos);
 			return;
 		}
 		if (e.target.value === 'uncompleted') {
 			const uncompleteTodos = prevTodos.filter((todo) => todo.completed === false);
-			const opt = selectFilter.current.options[selectFilter.current.options.selectedIndex].value;
 			setSearchFilterState(uncompleteTodos);
-			setSelectedFilter(opt);
 			setDisplayTodos(uncompleteTodos);
 		} else {
-			const opt = selectFilter.current.options[selectFilter.current.options.selectedIndex].value;
-			setSelectedFilter(opt);
 			setSearchFilterState(prevTodos);
 			setDisplayTodos(prevTodos);
 		}
 	};
 	const deleteHandler = (id) => {
-		const sameArr = getCommonElements(displayTodos, prevTodos);
-		const newDisplayTodos = sameArr.filter((todo) => todo.id !== id);
+		const newDisplayTodos = displayTodos.filter((todo) => todo.id !== id);
 		const deleteIdTodo = prevTodos.filter((todo) => todo.id !== id);
-
-		const notCommonElements = getNotCommonElements(deleteIdTodo, newDisplayTodos);
-		const newPrevTodos = [ ...newDisplayTodos, ...notCommonElements ];
-		const newfilterState = searchFilterState ? searchFilterState.filter((todo) => todo.id !== id) : [ ...newPrevTodos ];
+		const newSearchFilter = searchFilterState.filter((todo) => todo.id !== id);
 		setDisplayTodos(newDisplayTodos);
-		setSearchFilterState(newfilterState);
-		setPrevTodos(newPrevTodos);
+		setSearchFilterState(newSearchFilter);
+		setPrevTodos(deleteIdTodo);
 
 		if (prevTodos.length <= 1) {
 			alert('The page will refresh you have deleted all content !');
@@ -64,43 +53,40 @@ const Todos = () => {
 		}
 	};
 	const toggleTodoHandler = (id, completed) => {
-		const sameArr = getCommonElements(displayTodos, prevTodos);
-		const newDisplayTodos = sameArr.map((todo) => {
+		const newDisplayTodos = displayTodos.map((todo) => {
 			if (todo.id === id) {
 				let newCompleted = !completed;
 				return { ...todo, completed: newCompleted };
 			}
 			return todo;
 		});
-		const deleteIdTodo = prevTodos.filter((todo) => todo.id !== id);
-		const notCommonElements = getNotCommonElements(deleteIdTodo, newDisplayTodos);
-		const newPrevTodos = [ ...newDisplayTodos, ...notCommonElements ];
-		const toggledTodo = newDisplayTodos.filter((todo) => todo.id === id);
-
-		const newfilterState = searchFilterState
-			? !completed ? searchFilterState.filter((todo) => todo.id !== id) : [ ...toggledTodo, ...searchFilterState ]
-			: [ ...newPrevTodos ];
-		setSearchFilterState(newfilterState);
-		setPrevTodos(newPrevTodos);
+		const newDisplayPrevTodos = prevTodos.map((todo) => {
+			if (todo.id === id) {
+				let newCompleted = !completed;
+				return { ...todo, completed: newCompleted };
+			}
+			return todo;
+		});
+		const newSearchFilterTodos = searchFilterState.map((todo) => {
+			if (todo.id === id) {
+				let newCompleted = !completed;
+				return { ...todo, completed: newCompleted };
+			}
+			return todo;
+		});
+		setSearchFilterState(newSearchFilterTodos);
+		setPrevTodos(newDisplayPrevTodos);
 		setDisplayTodos(newDisplayTodos);
 	};
 	const handleSearch = (e) => {
 		const { value } = e.target;
 		if (!value) {
-			const newDisplayTodos = searchFilterState ? [ ...searchFilterState ] : [ ...prevTodos ];
-			selectFilter.current.value = selectedFilter;
-			setDisplayTodos(newDisplayTodos);
+			setDisplayTodos(searchFilterState);
 			return;
 		}
-		const newDisplayTodos = displayTodos.filter((todo) => todo.title.includes(value));
+		const newDisplayTodos = searchFilterState.filter((todo) => todo.title.includes(value));
 		setDisplayTodos(newDisplayTodos);
 	};
-	function getCommonElements(arr1, arr2) {
-		return arr1.filter((element) => arr2.includes(element));
-	}
-	function getNotCommonElements(arr1, arr2) {
-		return arr1.filter((element) => !arr2.includes(element));
-	}
 	return (
 		<main>
 			<section>
@@ -112,7 +98,7 @@ const Todos = () => {
 						<div className="drop-container">
 							<label htmlFor="options">show todos :</label>
 
-							<select ref={selectFilter} name="options" id="options" onChange={(value) => filterTodos(value)}>
+							<select name="options" id="options" onChange={(value) => filterTodos(value)}>
 								<option value="all">all</option>
 								<option value="uncompleted">uncompleted</option>
 								<option value="completed">completed</option>
