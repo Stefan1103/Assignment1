@@ -3,12 +3,29 @@ main {
 		article {
 			display: flex;
 			flex-direction: column;
-			.drop-container {
-				align-self: flex-end;
-				color: $darkmandarine;
-				font-weight: 600;
-				label {
-					padding-right: 1rem;
+			.search-options {
+				display: flex;
+				justify-content: space-between;
+				.search-todo {
+					input {
+						width: 20rem;
+						height: 1.5rem;
+						border: 2px solid $mainColor;
+						border-radius: 4px;
+						&:focus {
+							border: 2px solid $darkmandarine;
+							border-radius: 4px;
+							background-color: gainsboro;
+							outline: none;
+						}
+					}
+				}
+				.drop-container {
+					color: $darkmandarine;
+					font-weight: 600;
+					label {
+						padding-right: 1rem;
+					}
 				}
 			}
 		}

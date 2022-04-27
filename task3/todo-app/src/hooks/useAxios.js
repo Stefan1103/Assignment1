@@ -18,8 +18,11 @@ export const useAxios = (url) => {
 			setIsError({ error: true, status: '', statusText: 'ERROR...' });
 		}
 	};
-	useEffect(() => {
-		getData();
-	}, []);
-	return { isLoading, isError, data };
+	useEffect(
+		() => {
+			getData();
+		},
+		[ url ],
+	);
+	return { isLoading, isError, data, setData };
 };
