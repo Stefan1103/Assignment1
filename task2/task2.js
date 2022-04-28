@@ -108,7 +108,7 @@ function numInStr(str = '') {
 		for (let i = 0; i < matches.length; i++) {
 			matchedNum = matchedNum + matches[i];
 		}
-		return matchedNum.toString();
+		return matchedNum;
 	}
 }
 function charInStr(str = '') {
@@ -119,7 +119,7 @@ function charInStr(str = '') {
 		for (let i = 0; i < matches.length; i++) {
 			matchedNum = matchedNum + matches[i];
 		}
-		return matchedNum.toString().toUpperCase();
+		return matchedNum.toUpperCase();
 	}
 }
 

@@ -10,6 +10,6 @@ const shift = (steps = 0, arr = [ 1, 2, 3 ]) => {
 	return arr;
 };
 
-console.log(shift(1, [ 1, 2, 3 ]));
+console.log(shift(2, [ 1, 2, 3 ]));
 console.log(shift(-3, testArr));
 console.log(shift());

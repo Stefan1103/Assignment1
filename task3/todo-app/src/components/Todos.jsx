@@ -8,14 +8,14 @@ import { useAxios } from '../hooks/useAxios';
 const Todos = () => {
 	const url = 'https://jsonplaceholder.typicode.com/todos';
 	const [ displayTodos, setDisplayTodos ] = useState([]);
-	const [ prevTodos, setPrevTodos ] = useState();
+	const [ helperStateTodos, setHelperStateTodos ] = useState([]);
 	const [ searchFilterState, setSearchFilterState ] = useState(null);
 
 	const { isLoading, isError, data } = useAxios(url);
 	useEffect(
 		() => {
 			setDisplayTodos(data);
-			setPrevTodos(data);
+			setHelperStateTodos(data);
 			setSearchFilterState(data);
 		},
 		[ data ],
@@ -25,29 +25,29 @@ const Todos = () => {
 
 	const filterTodos = (e) => {
 		if (e.target.value === 'completed') {
-			const completeTodos = prevTodos.filter((todo) => todo.completed === true);
+			const completeTodos = helperStateTodos.filter((todo) => todo.completed === true);
 			setSearchFilterState(completeTodos);
 			setDisplayTodos(completeTodos);
 			return;
 		}
 		if (e.target.value === 'uncompleted') {
-			const uncompleteTodos = prevTodos.filter((todo) => todo.completed === false);
+			const uncompleteTodos = helperStateTodos.filter((todo) => todo.completed === false);
 			setSearchFilterState(uncompleteTodos);
 			setDisplayTodos(uncompleteTodos);
 		} else {
-			setSearchFilterState(prevTodos);
-			setDisplayTodos(prevTodos);
+			setSearchFilterState(helperStateTodos);
+			setDisplayTodos(helperStateTodos);
 		}
 	};
 	const deleteHandler = (id) => {
 		const newDisplayTodos = displayTodos.filter((todo) => todo.id !== id);
-		const deleteIdTodo = prevTodos.filter((todo) => todo.id !== id);
+		const newHeleperStateTodos = helperStateTodos.filter((todo) => todo.id !== id);
 		const newSearchFilter = searchFilterState.filter((todo) => todo.id !== id);
 		setDisplayTodos(newDisplayTodos);
 		setSearchFilterState(newSearchFilter);
-		setPrevTodos(deleteIdTodo);
+		setHelperStateTodos(newHeleperStateTodos);
 
-		if (prevTodos.length <= 1) {
+		if (displayTodos.length <= 1) {
 			alert('The page will refresh you have deleted all content !');
 			window.location.reload();
 		}
@@ -60,7 +60,7 @@ const Todos = () => {
 			}
 			return todo;
 		});
-		const newDisplayPrevTodos = prevTodos.map((todo) => {
+		const newDisplayPrevTodos = helperStateTodos.map((todo) => {
 			if (todo.id === id) {
 				let newCompleted = !completed;
 				return { ...todo, completed: newCompleted };
@@ -75,14 +75,13 @@ const Todos = () => {
 			return todo;
 		});
 		setSearchFilterState(newSearchFilterTodos);
-		setPrevTodos(newDisplayPrevTodos);
+		setHelperStateTodos(newDisplayPrevTodos);
 		setDisplayTodos(newDisplayTodos);
 	};
 	const handleSearch = (e) => {
 		const { value } = e.target;
 		if (!value) {
 			setDisplayTodos(searchFilterState);
-			return;
 		}
 		const newDisplayTodos = searchFilterState.filter((todo) => todo.title.includes(value));
 		setDisplayTodos(newDisplayTodos);
@@ -107,8 +106,8 @@ const Todos = () => {
 					</div>
 
 					<div className="todo-list-container">
-						{displayTodos.map((user) => {
-							return <Todo key={user.id} toggleTodoHandler={toggleTodoHandler} deleteHandler={deleteHandler} {...user} />;
+						{displayTodos.map((todo) => {
+							return <Todo key={todo.id} toggleTodoHandler={toggleTodoHandler} deleteHandler={deleteHandler} {...todo} />;
 						})}
 					</div>
 				</article>
