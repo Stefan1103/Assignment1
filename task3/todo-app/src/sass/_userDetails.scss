@@ -8,11 +8,13 @@
 	}
 	.userDetails-info {
 		color: $mainColor;
-		width: 100%;
+		width: 50%;
 		display: flex;
 		align-items: center;
 		flex-direction: column;
 		border: 1px solid $darkmandarine;
+		border-radius: 6px;
+		box-shadow: 5px 10px $darkmandarine;
 		p {
 			margin: 1rem;
 			strong {

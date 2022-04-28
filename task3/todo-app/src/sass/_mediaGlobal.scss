@@ -1,16 +1,9 @@
 //Responsive
 $widthTablet: 1036px;
-$widthSmTablet: 760px;
 $widthMobile: 380px;
 
 @mixin tablet {
 	@media (max-width: #{$widthTablet}) {
-		@content;
-	}
-}
-
-@mixin smTablet {
-	@media (max-width: #{$widthSmTablet}) {
 		@content;
 	}
 }
