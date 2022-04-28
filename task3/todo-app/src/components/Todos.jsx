@@ -60,7 +60,7 @@ const Todos = () => {
 			}
 			return todo;
 		});
-		const newDisplayPrevTodos = helperStateTodos.map((todo) => {
+		const newHeleperStateTodos = helperStateTodos.map((todo) => {
 			if (todo.id === id) {
 				let newCompleted = !completed;
 				return { ...todo, completed: newCompleted };
@@ -75,7 +75,7 @@ const Todos = () => {
 			return todo;
 		});
 		setSearchFilterState(newSearchFilterTodos);
-		setHelperStateTodos(newDisplayPrevTodos);
+		setHelperStateTodos(newHeleperStateTodos);
 		setDisplayTodos(newDisplayTodos);
 	};
 	const handleSearch = (e) => {
